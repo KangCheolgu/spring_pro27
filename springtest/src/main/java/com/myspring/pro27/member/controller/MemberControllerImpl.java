@@ -22,15 +22,22 @@ import com.myspring.pro27.member.service.MemberService;
 import com.myspring.pro27.member.vo.MemberVO;
 
 
-
-@Controller("memberController")
 //@EnableAspectJAutoProxy
-public class MemberControllerImpl   implements MemberController {
+@Controller("memberController")
+public class MemberControllerImpl implements MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberControllerImpl.class);
 	@Autowired
 	private MemberService memberService;
 	@Autowired
-	private MemberVO memberVO ;
+	MemberVO memberVO ;
+	
+	@RequestMapping(value = {"/main.do","/"}, method = RequestMethod.GET)
+	private ModelAndView main(HttpServletRequest request, HttpServletResponse response) {
+		String viewName = (String)request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		return mav;
+	}
 	
 	@Override
 	@RequestMapping(value="/member/listMembers.do" ,method = RequestMethod.GET)
@@ -38,8 +45,8 @@ public class MemberControllerImpl   implements MemberController {
 		String viewName = getViewName(request);
 //		String viewName = (String)request.getAttribute("viewName");
 		//System.out.println("viewName: " +viewName);
-		logger.info("info ∑π∫ß : viewName = "+ viewName);
-		logger.debug("debug ∑π∫ß : viewName = "+ viewName);
+		logger.info("info ÔøΩÔøΩÔøΩÔøΩ : viewName = "+ viewName);
+		logger.debug("debug ÔøΩÔøΩÔøΩÔøΩ : viewName = "+ viewName);
 		List membersList = memberService.listMembers();
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("membersList", membersList);
@@ -117,6 +124,9 @@ public class MemberControllerImpl   implements MemberController {
 		mav.setViewName(viewName);
 		return mav;
 	}
+	
+	//  pro27/main.doÎ°ú ÏöîÏ≤≠Ïãú Î©îÏù∏ÌéòÏù¥ÏßÄ Ï∂úÎ†•
+	
 	
 
 	private String getViewName(HttpServletRequest request) throws Exception {
